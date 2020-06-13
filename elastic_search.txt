@@ -1,0 +1,137 @@
+Question 1: get the week with the biggest sales
+
+GET kibana_sample_data_ecommerce/_search
+{
+  "size": 0,
+  "aggs": {
+    "week": {
+      "date_histogram": {
+        "field": "order_date",
+        "interval": "week",
+        "order": {
+          "total": "desc"
+        }
+      },
+      "aggs": {
+        "total": {
+          "sum": {
+            "field": "taxful_total_price"
+          }
+        }
+      }
+    }
+  }
+}
+
+Question 2: get the day with the biggest sales
+
+GET kibana_sample_data_ecommerce/_search
+{
+  "size": 0,
+  "aggs": {
+    "day": {
+      "date_histogram": {
+        "field": "order_date",
+        "interval": "day",
+        "order": {
+          "total": "desc"
+        }
+      },
+      "aggs": {
+        "total": {
+          "sum": {
+            "field": "taxful_total_price"
+          }
+        }
+      }
+    }
+  }
+}
+
+Question 3: get the continent with the biggest sales
+
+GET kibana_sample_data_ecommerce/_search
+{
+  "size": 0,
+  "aggs": {
+    "continent": {
+      "terms": {
+        "field": "geoip.continent_name",
+        "size": 1,
+        "order": {
+          "total": "desc"
+        }
+      },
+      "aggs": {
+        "total": {
+          "sum": {
+            "field": "taxful_total_price"
+          }
+        }
+      }
+    }
+  }
+}
+Question 4: get the best selling day of the week
+
+GET kibana_sample_data_ecommerce/_search
+{
+  "size": 0,
+  "aggs": {
+    "day": {
+      "terms": {
+        "field": "day_of_week",
+        "size": 1,
+        "order": {
+          "total": "desc"
+        }
+      },
+      "aggs": {
+        "total": {
+          "sum": {
+            "field": "taxful_total_price"
+          }
+        }
+      }
+    }
+  }
+}
+Question 5: find all categories
+
+GET kibana_sample_data_ecommerce/_search
+{
+  "size": 0,
+  "aggs": {
+    "category": {
+      "terms": {
+        "field": "products.category.keyword"
+      }
+    }
+  }
+}
+
+Question 6: get the most valuable (generated biggest revenue) product
+
+GET kibana_sample_data_ecommerce/_search
+{
+  "size": 0,
+  "aggs": {
+    "product": {
+      "terms": {
+        "field": "products.product_name.keyword",
+        "size": 1,
+        "order": {
+          "total": "desc"
+        }
+      },
+      "aggs": {
+        "total": {
+          "sum": {
+            "field": "taxful_total_price"
+          }
+        }
+      }
+    }
+  }
+}
+
